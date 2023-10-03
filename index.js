@@ -1,9 +1,8 @@
 import express from 'express';
-
+import * as constants from './utils/resources.js';
 
 const app = express();
-const PORT = 4500;
 
-app.listen(PORT, (req, res) => console.log(`Local server is running on ${PORT}`));
+app.listen(constants.PORT, (req, res) => console.log(constants.SERVER_RUN_LOG, constants.PORT));
 
-app.get('/', (req, res) => res.send(`Blog is running`));
+app.get('/', (req, res) => res.send(constants.DEFAULT_API_RESPONSE));
