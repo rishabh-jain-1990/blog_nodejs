@@ -1,5 +1,6 @@
 import { User } from '../model/User.js'
 import * as constants from '../utils/resources.js';
+import jwt from 'jsonwebtoken';
 
 const handleError = (err) => {
     let errors = {};
@@ -20,12 +21,19 @@ const handleError = (err) => {
     return errors;
 }
 
+const createToken = (id) => {
+    return jwt.sign({id}, constants.JWTSecretKey, {
+        expiresIn: constants.maxTokenAgeInSec
+    })
+}
+
 export const signup_post = async (req, res) => {
 
     try {
         const { email, password } = req.body;
         const user = await User.create({ email, password });
-        res.json({ user: user._id });
+        const token = createToken(user._id);
+        res.json({ user: user._id , token: token});
     } catch (err) {
         const errors = handleError(err);
         console.log(errors);
@@ -38,7 +46,8 @@ export const login_post = async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.login(email, password );
-        res.json({ user: user._id });
+        const token = createToken(user._id);
+        res.json({ user: user._id , token: token});
     } catch (err) {
         console.log(err);
         const errors = handleError(err);
