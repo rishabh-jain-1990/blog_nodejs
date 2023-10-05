@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
 import pkg from 'validator';
 import * as constants from '../utils/resources.js';
+import bcrypt from 'bcrypt';
 
-const {isEmail} = pkg;
+const { isEmail } = pkg;
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -17,6 +18,28 @@ const userSchema = new mongoose.Schema({
         required: [true, constants.ERR_PASSWORD_REQUIRED],
         minlength: [8, constants.ERR_PASSWORD_LENGTH],
     }
-})
+});
+
+userSchema.pre('save', async function (next) {
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+});
+
+userSchema.statics.login = async function (email, password) {
+    const user = await this.findOne({ email });
+
+    console.log(user);
+    
+    if (user) {
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+        if (isPasswordCorrect) {
+            return user;
+        }
+        throw Error(constants.ERR_PASSWORD_INCORRECT);
+    }
+    throw Error(constants.ERR_EMAIL_NOT_FOUND);
+};
 
 export const User = mongoose.model('user', userSchema);

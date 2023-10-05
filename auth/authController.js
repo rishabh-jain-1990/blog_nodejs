@@ -24,9 +24,8 @@ export const signup_post = async (req, res) => {
 
     try {
         const { email, password } = req.body;
-
         const user = await User.create({ email, password });
-        res.json({ user });
+        res.json({ user: user._id });
     } catch (err) {
         const errors = handleError(err);
         console.log(errors);
@@ -38,11 +37,19 @@ export const login_post = async (req, res) => {
 
     try {
         const { email, password } = req.body;
-        const user = await User.find({ email, password });
-        res.json(user);
+        const user = await User.login(email, password );
+        res.json({ user: user._id });
     } catch (err) {
+        console.log(err);
         const errors = handleError(err);
-        console.log(errors);
-        res.status(400).json({ errors });
+
+        if (errors) {
+            console.log(errors);
+            res.status(400).json({ errors });
+        }
+        else {
+            console.log(err);
+            res.status(400).json({ err });
+        }
     }
 }

@@ -12,3 +12,5 @@ export const ERR_EMAIL_DUPLICATE = "Email already exists, please use a different
 export const ERR_PASSWORD_REQUIRED = "Password is required";
 export const ERR_PASSWORD_LENGTH = "Password should be atleast 8 characters long";
 export const ERR_VALIDATION_MESSAGE = "user validation failed";
+export const ERR_EMAIL_NOT_FOUND = "Email not found";
+export const ERR_PASSWORD_INCORRECT = "Incorrect Password";
