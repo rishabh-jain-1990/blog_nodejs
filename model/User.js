@@ -19,6 +19,20 @@ const userSchema = new mongoose.Schema({
         required: [true, constants.ERR_PASSWORD_REQUIRED],
         minlength: [8, constants.ERR_PASSWORD_LENGTH],
         select: false,
+    },
+    name:{
+        type: String,
+        minlength: 4,
+    },
+    gender:{
+        type: String,
+        enum: {
+            values: ['male', 'female', 'other'],
+            message: constants.ERR_GENDER_INVALID
+        }
+    },
+    age: {
+        type: Number
     }
 });
 

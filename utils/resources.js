@@ -19,3 +19,5 @@ export const ERR_PASSWORD_INCORRECT = "Incorrect Password";
 export const ERR_TOKEN_MISSING = "Auth Token Missing";
 export const ERR_TOKEN_INVALID = "Auth Token is Invalid";
 export const KEY_HEADER_AUTH = "authorisation";
+export const ERR_GENDER_INVALID= "Gender is not valid";
+export const ERR_UPDATE_VALIDATION_MESSAGE = "Validation failed";
