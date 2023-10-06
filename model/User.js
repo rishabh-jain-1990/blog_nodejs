@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import pkg from 'validator';
 import * as constants from '../utils/resources.js';
+import  {withoutProperty} from '../utils/functions.js';
 import bcrypt from 'bcrypt';
 
 const { isEmail } = pkg;
@@ -17,6 +18,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, constants.ERR_PASSWORD_REQUIRED],
         minlength: [8, constants.ERR_PASSWORD_LENGTH],
+        select: false,
     }
 });
 
@@ -27,15 +29,13 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.statics.login = async function (email, password) {
-    const user = await this.findOne({ email });
+    const user = await this.findOne({ email }).select('+password');
 
-    console.log(user);
-    
     if (user) {
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
         if (isPasswordCorrect) {
-            return user;
+            return withoutProperty(user.toObject(), 'password');
         }
         throw Error(constants.ERR_PASSWORD_INCORRECT);
     }
