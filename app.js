@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+
 import express from 'express';
 import * as constants from './utils/resources.js';
 import mongoose from 'mongoose';
@@ -12,9 +15,9 @@ const app = express();
 app.use(express.static('public'));
 app.use(express.json());
 
-mongoose.connect(constants.DB_URL)
+mongoose.connect(process.env.DB_URL)
     .then(() => {
-        app.listen(constants.PORT, (req, res) => console.log(constants.SERVER_RUN_LOG, constants.PORT));
+        app.listen(process.env.PORT, (req, res) => console.log(constants.SERVER_RUN_LOG, process.env.PORT));
         console.log(constants.DB_CONNECTION_REQUEST_SUCCESS)
     })
     .catch(err => console.log(err));

@@ -8,7 +8,7 @@ export const requireAuth = (req, res, next) => {
 
         const token = req.headers[constants.KEY_HEADER_AUTH];
         if (token) {
-            jwt.verify(token, constants.JWTSecretKey, (err, decodedToken) => {
+            jwt.verify(token, process.env.JWTSecretKey, (err, decodedToken) => {
                 if (err) {
                     console.log(err);
                     res.status(400).send(constants.ERR_TOKEN_INVALID)

@@ -22,8 +22,8 @@ const handleError = (err) => {
 }
 
 const createToken = (id) => {
-    return jwt.sign({ id }, constants.JWTSecretKey, {
-        expiresIn: constants.maxTokenAgeInSec
+    return jwt.sign({ id }, process.env.JWTSecretKey, {
+        expiresIn: process.env.maxTokenAgeInSec
     })
 }
 

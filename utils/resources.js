@@ -1,8 +1,5 @@
 //.env variables
-export const PORT = 4500;
-export const DB_URL = 'mongodb+srv://rjain90:CottonCandy12@cluster0.loejesi.mongodb.net/';
-export const maxTokenAgeInSec = 7 * 24* 60 *60;
-export const JWTSecretKey = "Blog project JWT secret key";
+
 
 // Text strings
 export const SERVER_RUN_LOG = `Local server is running on %s`;
